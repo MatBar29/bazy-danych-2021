@@ -32,7 +32,7 @@ UPDATE postac SET funkcja='kapitan' WHERE nazwa='Bjorn';
 
 ALTER TABLE postac ADD n_statek VARCHAR(60), ADD FOREIGN KEY (n_statek) REFERENCES statek(nazwa_statku);
 
-UPDATE postac SET n_statek='dar tesciowej' WHERE nazwa='Bjorn';
+UPDATE postac SET n_statek='Boruta' WHERE nazwa='Bjorn';
 UPDATE postac SET n_statek='dar tesciowej' WHERE nazwa='Drozd';
 UPDATE postac SET n_statek='dar tesciowej' WHERE nazwa='Floki';
 UPDATE postac SET n_statek='dar tesciowej' WHERE nazwa='Ivar';
@@ -42,3 +42,43 @@ UPDATE postac SET n_statek='dar tesciowej' WHERE nazwa='Ubbe';
 DELETE FROM izba WHERE nazwa_izby='spizarnia';
 
 DROP TABLE izba;
+
+DELETE FROM postac WHERE nazwa='Ubbe';
+DELETE FROM postac WHERE nazwa='Rollo';
+
+ALTER TABLE walizka DROP FOREIGN KEY walizka_ibfk_1;
+ALTER TABLE przetwory DROP FOREIGN KEY przetwory_ibfk_1;
+ALTER TABLE przetwory DROP FOREIGN KEY przetwory_ibfk_2;
+ALTER TABLE postac MODIFY id_postaci INT;
+ALTER TABLE postac DROP PRIMARY KEY;
+
+ALTER TABLE postac ADD pesel VARCHAR(11) NOT NULL;
+UPDATE postac SET pesel='31295726172' WHERE nazwa='Bjorn';
+UPDATE postac SET pesel='31295722172' WHERE nazwa='Drozd';
+UPDATE postac SET pesel='36295722172' WHERE nazwa='Tesciowa';
+UPDATE postac SET pesel='36295722572' WHERE nazwa='Ragnar';
+UPDATE postac SET pesel='36295732572' WHERE nazwa='Floki';
+UPDATE postac SET pesel='36295738572' WHERE nazwa='Ivar';
+
+ALTER TABLE postac ADD PRIMARY KEY(pesel);
+
+ALTER TABLE postac MODIFY rodzaj ENUM('wiking','ptak','kobieta','syrena');
+
+INSERT INTO postac VALUES(7, 'Gertruda Nieszczera', 'syrena','1956-4-12','65',NULL,NULL,48571278429);
+
+UPDATE postac SET n_statek='Boruta' WHERE nazwa LIKE '%a%';
+UPDATE statek SET max_ladownosc=max_ladownosc WHERE data_wodowania BETWEEN '1901-1-1' AND '2000-12-31';
+ALTER TABLE postac ADD CHECK (wiek<=1000);
+
+ALTER TABLE postac MODIFY rodzaj ENUM('wiking','ptak','kobieta','syrena','waz');
+INSERT INTO postac VALUES(8, 'Loko', 'waz','1978-5-7','43',NULL,NULL,46341278429);
+
+CREATE TABLE marynarz LIKE postac;
+INSERT INTO marynarz SELECT * FROM postac WHERE n_statek IS NOT NULL;
+
+UPDATE postac SET n_statek=NULL;
+DELETE FROM postac WHERE nazwa='Ivar';
+DELETE FROM statek;
+ALTER TABLE postac DROP FOREIGN KEY postac_ibfk_1;
+DROP TABLE statek;
+INSERT INTO zwierz(nazwa,wiek) SELECT nazwa,wiek FROM postac WHERE rodzaj='ptak' OR rodzaj='waz';
