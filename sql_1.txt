@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 CREATE TABLE postac(id_postaci INT PRIMARY KEY AUTO_INCREMENT, nazwa VARCHAR(40) NOT NULL, rodzaj ENUM('wiking','ptak','kobieta'), data_urodzenia DATE NOT NULL, wiek INT UNSIGNED);
 INSERT INTO postac VALUES(1,'Bjorn','wiking','1970-10-11','51');
 INSERT INTO postac VALUES(2,'Drozd','ptak','2019-7-14','2');
@@ -82,3 +83,89 @@ DELETE FROM statek;
 ALTER TABLE postac DROP FOREIGN KEY postac_ibfk_1;
 DROP TABLE statek;
 INSERT INTO zwierz(nazwa,wiek) SELECT nazwa,wiek FROM postac WHERE rodzaj='ptak' OR rodzaj='waz';
+=======
+CREATE TABLE postac(id_postaci INT PRIMARY KEY AUTO_INCREMENT, nazwa VARCHAR(40) NOT NULL, rodzaj ENUM('wiking','ptak','kobieta'), data_urodzenia DATE NOT NULL, wiek INT UNSIGNED);
+INSERT INTO postac VALUES(1,'Bjorn','wiking','1970-10-11','51');
+INSERT INTO postac VALUES(2,'Drozd','ptak','2019-7-14','2');
+INSERT INTO postac VALUES(3,'Tesciowa','kobieta','1954-1-14','67');
+UPDATE postac SET data_urodzenia='1933-1-12' WHERE nazwa='Tesciowa';
+
+CREATE TABLE walizka(id_walizki INT PRIMARY KEY AUTO_INCREMENT, pojemnosc INT UNSIGNED, kolor ENUM('rozowy','czerwony','teczowy','zolty'), id_wlasciciela INT, FOREIGN KEY(id_wlasciciela) REFERENCES postac(id_postaci));
+ALTER TABLE walizka MODIFY kolor ENUM('rozowy','czerwony','teczowy','zolty')  DEFAULT 'rozowy';
+INSERT INTO walizka VALUES(1,20,'zolty',1);
+INSERT INTO walizka VALUES(2,30,'rozowy',3);
+
+CREATE TABLE izba(adres_budynku INT, nazwa_izby VARCHAR(40), PRIMARY KEY(adres_budynku, nazwa_izby), metraz INT UNSIGNED, wlasciciel INT, FOREIGN KEY (wlasciciel) REFERENCES postac(id_postaci) ON DELETE SET NULL);
+ALTER TABLE izba ADD kolor VARCHAR(40) DEFAULT 'czarny' AFTER metraz;
+INSERT INTO izba VALUES(1, 'spizarnia', 30, 'czarny', 1);
+
+CREATE TABLE przetwory(id_przetworu INT PRIMARY KEY, rok_produkcji YEAR DEFAULT 1964, id_wykonawcy INT, FOREIGN KEY (id_wykonawcy) REFERENCES postac(id_postaci), zawartosc VARCHAR(40), dodatek VARCHAR(40) DEFAULT 'chilli', id_konsumenta INT, FOREIGN KEY (id_konsumenta) REFERENCES postac(id_postaci));
+INSERT INTO przetwory VALUES(1, 1978, 1, 'bigos', 'chilli', 3);
+
+INSERT INTO postac VALUES(4, 'Ragnar', 1, '1980-12-3', 41);
+INSERT INTO postac VALUES(5, 'Floki', 1, '1980-11-3', 41);
+INSERT INTO postac VALUES(6, 'Ivar', 1, '1980-10-3', 41);
+INSERT INTO postac VALUES(7, 'Rollo', 1, '1980-9-3', 41);
+INSERT INTO postac VALUES(8, 'Ubbe', 1, '1980-8-3', 41);
+
+CREATE TABLE statek(nazwa_statku VARCHAR(60) PRIMARY KEY, rodzaj_statku ENUM ('wojenny','pasazerski','handlowy'), data_wodowania DATE, max_ladownosc INT UNSIGNED);
+INSERT INTO statek VALUES('dar tesciowej', 'wojenny', '2015-7-12', 1000);
+INSERT INTO statek VALUES('boruta', 'pasazerski', '2013-7-12', 1500);
+
+ALTER TABLE postac ADD funkcja VARCHAR(40);
+
+UPDATE postac SET funkcja='kapitan' WHERE nazwa='Bjorn';
+
+ALTER TABLE postac ADD n_statek VARCHAR(60), ADD FOREIGN KEY (n_statek) REFERENCES statek(nazwa_statku);
+
+UPDATE postac SET n_statek='Boruta' WHERE nazwa='Bjorn';
+UPDATE postac SET n_statek='dar tesciowej' WHERE nazwa='Drozd';
+UPDATE postac SET n_statek='dar tesciowej' WHERE nazwa='Floki';
+UPDATE postac SET n_statek='dar tesciowej' WHERE nazwa='Ivar';
+UPDATE postac SET n_statek='dar tesciowej' WHERE nazwa='Rollo';
+UPDATE postac SET n_statek='dar tesciowej' WHERE nazwa='Ubbe';
+
+DELETE FROM izba WHERE nazwa_izby='spizarnia';
+
+DROP TABLE izba;
+
+DELETE FROM postac WHERE nazwa='Ubbe';
+DELETE FROM postac WHERE nazwa='Rollo';
+
+ALTER TABLE walizka DROP FOREIGN KEY walizka_ibfk_1;
+ALTER TABLE przetwory DROP FOREIGN KEY przetwory_ibfk_1;
+ALTER TABLE przetwory DROP FOREIGN KEY przetwory_ibfk_2;
+ALTER TABLE postac MODIFY id_postaci INT;
+ALTER TABLE postac DROP PRIMARY KEY;
+
+ALTER TABLE postac ADD pesel VARCHAR(11) NOT NULL;
+UPDATE postac SET pesel='31295726172' WHERE nazwa='Bjorn';
+UPDATE postac SET pesel='31295722172' WHERE nazwa='Drozd';
+UPDATE postac SET pesel='36295722172' WHERE nazwa='Tesciowa';
+UPDATE postac SET pesel='36295722572' WHERE nazwa='Ragnar';
+UPDATE postac SET pesel='36295732572' WHERE nazwa='Floki';
+UPDATE postac SET pesel='36295738572' WHERE nazwa='Ivar';
+
+ALTER TABLE postac ADD PRIMARY KEY(pesel);
+
+ALTER TABLE postac MODIFY rodzaj ENUM('wiking','ptak','kobieta','syrena');
+
+INSERT INTO postac VALUES(7, 'Gertruda Nieszczera', 'syrena','1956-4-12','65',NULL,NULL,48571278429);
+
+UPDATE postac SET n_statek='Boruta' WHERE nazwa LIKE '%a%';
+UPDATE statek SET max_ladownosc=max_ladownosc WHERE data_wodowania BETWEEN '1901-1-1' AND '2000-12-31';
+ALTER TABLE postac ADD CHECK (wiek<=1000);
+
+ALTER TABLE postac MODIFY rodzaj ENUM('wiking','ptak','kobieta','syrena','waz');
+INSERT INTO postac VALUES(8, 'Loko', 'waz','1978-5-7','43',NULL,NULL,46341278429);
+
+CREATE TABLE marynarz LIKE postac;
+INSERT INTO marynarz SELECT * FROM postac WHERE n_statek IS NOT NULL;
+
+UPDATE postac SET n_statek=NULL;
+DELETE FROM postac WHERE nazwa='Ivar';
+DELETE FROM statek;
+ALTER TABLE postac DROP FOREIGN KEY postac_ibfk_1;
+DROP TABLE statek;
+INSERT INTO zwierz(nazwa,wiek) SELECT nazwa,wiek FROM postac WHERE rodzaj='ptak' OR rodzaj='waz';
+>>>>>>> b3aabfb96b3bb96969884a608b5670322dff63a2
