@@ -1,0 +1,25 @@
+CREATE TABLE kreatura LIKE wikingowie.kreatura;
+INSERT INTO kreatura(SELECT * FROM wikingowie.kreatura);
+CREATE TABLE zasob LIKE wikingowie.zasob;
+INSERT INTO zasob(SELECT * FROM wikingowie.zasob);
+CREATE TABLE ekwipunek LIKE wikingowie.ekwipunek;
+INSERT INTO ekwipunek(SELECT * FROM wikingowie.ekwipunek);
+SELECT * FROM zasob;
+SELECT * FROM zasob WHERE rodzaj='jedzenie';
+SELECT idZasobu, ilosc FROM ekwipunek WHERE idKreatury=1 OR idKreatury=3 OR idKreatury=5;
+
+SELECT nazwa FROM kreatura WHERE rodzaj!='wiedzma' AND udzwig>=50;
+SELECT nazwa FROM zasob WHERE waga BETWEEN 2 AND 5;
+SELECT nazwa FROM kreatura WHERE nazwa LIKE '%or%' AND udzwig BETWEEN 30 AND 70;
+
+SELECT nazwa FROM zasob WHERE MONTH(dataPozyskania)=7 OR MONTH(dataPozyskania)=8;
+SELECT nazwa FROM zasob WHERE rodzaj IS NOT NULL ORDER BY waga;
+SELECT nazwa FROM kreatura ORDER BY dataUr LIMIT 5;
+
+SELECT DISTINCT rodzaj FROM zasob;
+SELECT CONCAT(nazwa," ",rodzaj) AS 'nazwa-rodzaj' FROM kreatura WHERE rodzaj LIKE 'wi%';
+SELECT CONCAT(ilosc*waga) AS 'calkowita waga' FROM zasob WHERE YEAR(dataPozyskania) BETWEEN 2000 AND 2007;
+
+SELECT CONCAT(waga*0.7,"  ",waga*0.3) AS 'netto-odpady' FROM zasob WHERE rodzaj='jedzenie';
+SELECT nazwa FROM zasob WHERE rodzaj IS NULL;
+SELECT DISTINCT rodzaj FROM zasob WHERE nazwa LIKE 'Ba%' OR nazwa LIKE '&os' ORDER BY rodzaj;
