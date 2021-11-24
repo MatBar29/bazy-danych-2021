@@ -1,0 +1,11 @@
+SELECT avg(waga) FROM kreatura WHERE rodzaj='wiking';
+SELECT avg(waga), COUNT(*) FROM kreatura GROUP BY rodzaj;
+SELECT avg(YEAR(CURDATE())-YEAR(dataUR)) AS wiek FROM kreatura GROUP BY rodzaj;
+
+SELECT SUM(waga) FROM zasob GROUP BY rodzaj;
+SELECT avg(waga) FROM zasob WHERE ilosc>=4 GROUP BY nazwa HAVING SUM(waga)>10;
+SELECT COUNT(DISTINCT nazwa) FROM zasob GROUP BY rodzaj HAVING MIN(ilosc)>1;
+
+SELECT SUM(ekwipunek.ilosc) FROM ekwipunek INNER JOIN kreatura ON ekwipunek.idKreatury=kreatura.idKreatury GROUP BY kreatura.idKreatury;
+SELECT zasob.nazwa FROM zasob INNER JOIN ekwipunek ON zasob.idZasobu=ekwipunek.idZasobu INNER JOIN kreatura
+ON ekwipunek.idKreatury=kreatura.idKreatury;
