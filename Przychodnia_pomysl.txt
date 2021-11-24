@@ -1,0 +1,55 @@
+pacjent
+	id_pacjenta
+	pesel
+	imie
+	nazwisko
+	plec
+	nr_telefonu
+	adres
+	data_urodzenia
+	email
+
+lekarz
+	id_lekarza
+	imie
+	nazwisko
+	id_specjalizacji
+	godziny_przyjec
+	nr_telefonu
+	sala
+	zarobki
+	pesel
+	data_zatrudnienia
+
+wizyta
+	id_wizyty
+	godzina
+	sala
+	data
+	id_lekarza
+	id_pacjenta
+
+recepta
+	numer
+	data_wystawiena
+	id_lekarza
+	id_pacjenta
+	id_leku
+	id_wizyty
+
+lek
+	id_leku
+	nazwa
+	firma
+	
+specjalizacja
+	id_specjalizacji
+	nazwa
+	
+pacjent		wizyta	1:n
+lekarz		wizyta	1:n
+specjalizacja	lekarz	n:m
+pacjent		recepta 1:n
+lekarz		recepta	1:n
+wizyta		recepta	1:1
+lek		recepta	n:m

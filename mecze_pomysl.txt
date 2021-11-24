@@ -1,0 +1,44 @@
+druzyny
+	Id_druzyny
+	Nazwa
+	Id_pilkarz
+	Id_sztab
+
+pilakrze
+	Id_pilkarz
+	Imie
+	Nazwisko
+	Pesel
+	Data_urodzenia
+
+sztaby
+	Id_sztab
+	Nazwa
+
+stadiony
+	Id_stadion
+	Nazwa
+
+sedziowie
+	Id_sedzia
+	Imie
+	Nazwisko
+	Data_urodzenia
+
+mecze
+	Id_mecz
+	Id_stadion
+	Id_sedzia
+	Id_pilkarz
+	Id_sztab
+	Id_faza
+	Wynik
+	
+bramki
+	Id_bramki
+	Id_pilkarz
+
+fazy
+	Id_faza
+	Nazwa
+

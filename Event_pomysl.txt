@@ -1,0 +1,36 @@
+Kontrahenci
+	Id_Kontrahent
+	Imie
+	Nazwisko
+	Pesel
+	Data_urodzenia
+
+Pracownicy
+	Id_Pracownik
+	Imie
+	Nazwisko
+	Pesel
+	Id_Dzial
+
+Eventy
+	Id_Event
+	Nazwa
+	Data
+	Miejsce
+	Id_Kontrahent
+	Id_Odwolania
+
+Rozliczenia
+	Faktura_Paragon
+	Koszt_Eventu
+	Przychod
+	Zysk
+
+Dział
+	Id_Dzial
+	Nazwa
+	
+Odwołanie
+	Id_Odwolania
+	Powod
+
