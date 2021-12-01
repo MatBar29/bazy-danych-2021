@@ -9,3 +9,13 @@ SELECT COUNT(DISTINCT nazwa) FROM zasob GROUP BY rodzaj HAVING MIN(ilosc)>1;
 SELECT SUM(ekwipunek.ilosc) FROM ekwipunek INNER JOIN kreatura ON ekwipunek.idKreatury=kreatura.idKreatury GROUP BY kreatura.idKreatury;
 SELECT zasob.nazwa FROM zasob INNER JOIN ekwipunek ON zasob.idZasobu=ekwipunek.idZasobu INNER JOIN kreatura
 ON ekwipunek.idKreatury=kreatura.idKreatury;
+SELECT nazwa FROM kreatura LEFT JOIN ekwipunek ON kreatura.idKreatury=ekwipunek.idKreatury WHERE ekwipunek.idKreatury IS NULL;
+
+SELECT kreatura.nazwa, zasob.nazwa FROM kreatura JOIN ekwipunek ON kreatura.idKreatury=ekwipunek.idKreatury
+JOIN zasob ON ekwipunek.idZasobu=zasob.idZasobu WHERE kreatura.rodzaj='wiking' AND dataUR BETWEEN '1601-1-1' AND '1700-12-31';
+SELECT kreatura.nazwa FROM kreatura JOIN ekwipunek ON kreatura.idKreatury=ekwipunek.idKreatury JOIN zasob ON ekwipunek.idZasobu=zasob.idZasobu WHERE zasob.rodzaj='jedzenie' ORDER BY kreatura.dataUr DESC LIMIT 5;
+SELECT CONCAT(kreatura.nazwa,' ',  nazwa.nazwa) FROM kreatura AS nazwa JOIN kreatura ON kreatura.idKreatury=nazwa.idKreatury-5;
+
+SELECT avg(zasob.waga*ekwipunek.ilosc), kreatura.rodzaj FROM kreatura JOIN ekwipunek ON kreatura.idKreatury=ekwipunek.idKreatury JOIN zasob ON ekwipunek.idZasobu=zasob.idZasobu WHERE kreatura.rodzaj<>'malpa' AND kreatura.rodzaj<>'waz' AND ekwipunek.ilosc<30 GROUP BY kreatura.rodzaj;
+5.2 do zrobienia
+
